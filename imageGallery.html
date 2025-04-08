@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .main-image{
+            width:520px;
+            padding:4px;
+            margin:5px;
+        }
+        #img1{
+            width:500px;
+            height:400px;
+            background-color: white;
+            padding:5px;
+        }
+        .btn{
+            background-color: blue;
+            color:white;
+            padding:10px;
+        }
+        .tc{
+            display:flex;
+            justify-content: center;
+            margin-top:5px;
+        }
+        .container{
+            display:flex;
+            align-items: center;
+        }
+        .t{
+            height:200px;
+            width:400px;
+        }
+    </style>
+</head>
+<body>
+    <center>
+    <div class="conatiner">
+        <div class="main-image">
+            <img src="main.jpg" id="img1">
+            <div class="tc">
+                <img class="t" src="1.jpeg">
+                <img class="t" src="2.jpg">
+                <img class="t" src="3.jpg">
+                <img class="t" src="4.webp">
+                <img class="t" src="5.webp">
+                <img class="t" src="jerry.jpg">
+            </div>
+        </div> 
+    </div>
+</center>
+    <script>
+    let mi=document.getElementById("img1")
+    let thumbnails=document.querySelectorAll(".t")
+    let currentIndex=0
+    for(let i=0;i<thumbnails.length;i++){
+        thumbnails[i].addEventListener('click',function(){
+        mi.src=thumbnails[i].src
+        currentIndex=i
+    })
+    }  
+    document.getElementById("prev").addEventListener('click',function(){
+        currentIndex=(currentIndex-1+thumbnails.length)%thumbnails.length
+        mi.src=thumbnails[currentIndex].src
+    })
+    document.getElementById("next").addEventListener('click',function(){
+        currentIndex=(currentIndex+1)%thumbnails.length
+        mi.src=thumbnails[currentIndex].src
+    })
+        </script>
+</body>
+</html>
