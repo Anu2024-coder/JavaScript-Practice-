@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lightbox image gallery</title>
+    <style>
+        .gallery{
+            display:flex;
+            flex-wrap: wrap;
+            border:2px solid black;
+            justify-content: center;
+            gap:130px;
+            padding:10px;
+
+        }
+        .gallery img{
+            height:200px;
+            width:200px;
+            border:2px solid black;
+        }
+        #Lightbox{
+            position:fixed;
+            z-index:1000;
+            top:0;
+            left:0;
+            width:100%;height:100%;
+            background-color: rgba(0,0,0,0.4);
+            display:none;
+            justify-content: center;
+            align-items: center;
+        }
+        #Lightbox img{
+            height:300px;
+            width:400px;
+            padding:4px;
+            border:2px solid black;
+            background-color: black;
+        }
+        .arrow{
+            position:absolute;
+            top:50%;
+            transform:translateY(-50%);
+            color:white;
+            font-size:14px;
+            color:white;
+            padding:10px;
+            cursor:pointer;
+        }
+        #left{
+            left:30px;
+        }
+        #right{
+            right:30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="gallery">
+        <img src="main.jpg">
+        <img src="1.jpeg">
+        <img src="2.jpg">
+        <img src="3.jpg">
+        <img src="4.webp">
+        <img src="5.webp">
+        <img src="jerry.jpg">
+        <img src="1.jpeg">
+        <img src="2.jpg">
+        <img src="3.jpg">
+        <img src="4.webp">
+        <img src="5.webp">
+    </div>
+    <div id="Lightbox">
+        <div class="arrow" id="left">&#10094</div>
+        <img id="Lightbox-img" src="">
+        <div class="arrow" id="right">&#10095</div>
+    </div>
+    <script>
+        let Lightbox=document.getElementById("Lightbox")
+        let LightboxImg=document.getElementById("Lightbox-img")
+        let images=document.querySelectorAll(".gallery img")
+        let leftArrow=document.getElementById("left")
+        let rightArrow=document.getElementById("right")
+        let currentIndex=0;
+        for(let i=0;i<images.length;i++){
+            images[i].addEventListener('click',function(){
+                LightboxImg.src=images[i].src
+                Lightbox.style.display="flex"
+                currentIndex=i;
+            })
+        }
+
+      rightArrow.addEventListener('click', () => {
+      currentIndex = (currentIndex + 1) % images.length;
+      LightboxImg.src = images[currentIndex].src;
+    });
+
+      leftArrow.addEventListener('click', () => {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      LightboxImg.src = images[currentIndex].src;
+    });
+
+    Lightbox.addEventListener('click', (e) => {
+      if (e.target === Lightbox) {
+        Lightbox.style.display="none"
+      }
+    });
+    </script>
+</body>
+</html>
