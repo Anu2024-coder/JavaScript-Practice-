@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dynamic Paragraph Styler</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(to right, #ce72ce, #3939ae);
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      color: white;
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .div2 {
+      background: white;
+      border-radius: 20px;
+      padding: 20px;
+      width: 400px;
+    }
+
+    button {
+      color: white;
+      background-color: blue;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      margin-top: 15px;
+      width: 100%;
+      cursor: pointer;
+    }
+
+    select, label {
+      display: block;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    select {
+      padding: 8px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      width: 100%;
+    }
+
+    .div3 {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    #paragraph {
+      background-color: #f0f0f0;
+      padding: 10px 15px;
+      border-radius: 10px;
+      height: 50px;
+      width: 400px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Dynamic Paragraph Styler</h1>
+  <div class="container">
+    <div class="div2">
+      <h2>Customize Your Paragraph</h2>
+
+      <label for="color">Text Color:</label>
+      <select id="color">
+        <option value="red">Red</option>
+        <option value="blue">Blue</option>
+        <option value="green">Green</option>
+        <option value="yellow">Yellow</option>
+        <option value="orange">Orange</option>
+      </select>
+
+      <label for="font">Font Size:</label>
+      <select id="font">
+        <option value="small">Small</option>
+        <option value="medium">Medium</option>
+        <option value="large">Large</option>
+      </select>
+
+      <label for="bgcolor">Background Color:</label>
+      <select id="bgcolor">
+        <option value="red">Red</option>
+        <option value="blue">Blue</option>
+        <option value="pink">Pink</option>
+        <option value="green">Green</option>
+        <option value="yellow">Yellow</option>
+        <option value="orange">Orange</option>
+      </select>
+
+      <button onclick="applyStyles()">Apply Styles</button>
+    </div>
+  </div>
+
+  <div class="div3">
+    <p id="paragraph">This is a simple paragraph. Change my styles!</p>
+  </div>
+
+  <script>
+    function applyStyles() {
+      const color = document.getElementById("color").value;
+      const fontSize = document.getElementById("font").value;
+      const bgColor = document.getElementById("bgcolor").value;
+
+      const paragraph = document.getElementById("paragraph");
+      paragraph.style.color = color;
+      paragraph.style.backgroundColor = bgColor;
+
+      if (fontSize === "small") {
+        paragraph.style.fontSize = "14px";
+      } else if (fontSize === "medium") {
+        paragraph.style.fontSize = "18px";
+      } else if (fontSize === "large") {
+        paragraph.style.fontSize = "24px";
+      }
+    }
+  </script>
+</body>
+</html>
