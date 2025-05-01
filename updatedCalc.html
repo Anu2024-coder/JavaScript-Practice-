@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stylish Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #74ebd5, #ACB6E5);
+      text-align: center;
+      padding: 50px;
+    }
+
+    .calculator {
+      background: white;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      max-width: 400px;
+      margin: auto;
+    }
+
+    input, select, button {
+      padding: 10px;
+      font-size: 16px;
+      margin: 10px 0;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    h3 {
+      margin-top: 20px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="calculator">
+    <h2>Simple Calculator</h2>
+
+    <input type="number" id="num1" placeholder="First Number"><br>
+    <input type="number" id="num2" placeholder="Second Number"><br>
+
+    <select id="operation">
+      <option value="add">Add (+)</option>
+      <option value="subtract">Subtract (-)</option>
+      <option value="multiply">Multiply (×)</option>
+      <option value="divide">Divide (÷)</option>
+    </select><br>
+
+    <button onclick="calculate()">Calculate</button>
+
+    <h3>Result: <span id="result">--</span></h3>
+  </div>
+
+  <script>
+    function calculate() {
+      let a = parseFloat(document.getElementById("num1").value);
+      let b = parseFloat(document.getElementById("num2").value);
+      let op = document.getElementById("operation").value;
+      let res;
+
+      if (isNaN(a) || isNaN(b)) {
+        res = "Please enter valid numbers.";
+      } else {
+        switch (op) {
+          case "add":
+            res = a + b;
+            break;
+          case "subtract":
+            res = a - b;
+            break;
+          case "multiply":
+            res = a * b;
+            break;
+          case "divide":
+            res = b !== 0 ? (a / b) : "Cannot divide by 0";
+            break;
+          default:
+            res = "Invalid operation";
+        }
+      }
+
+      document.getElementById("result").innerText = res;
+    }
+
+    // Support Enter key for calculation
+    document.addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        calculate();
+      }
+    });
+  </script>
+
+</body>
+</html>
