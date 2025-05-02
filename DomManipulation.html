@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DOM Manipulation Examples</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .section {
+      margin-bottom: 30px;
+    }
+    .item {
+      margin: 5px 0;
+    }
+    #box {
+      padding: 10px;
+      background-color: lightgray;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. Change Text and Style -->
+  <div class="section">
+    <h2 id="main-heading">Hello, World!</h2>
+    <button onclick="changeText()">Change Text</button>
+  </div>
+
+  <!-- 2. Create and Add a New Element -->
+  <div class="section">
+    <div id="container"></div>
+    <button onclick="addParagraph()">Add Paragraph</button>
+  </div>
+
+  <!-- 3. Remove an Element -->
+  <div class="section">
+    <p id="toRemove">I will be removed</p>
+    <button onclick="removeElement()">Remove</button>
+  </div>
+
+  <!-- 4. Modify Multiple Elements -->
+  <div class="section">
+    <ul>
+      <li class="item">Item 1</li>
+      <li class="item">Item 2</li>
+      <li class="item">Item 3</li>
+    </ul>
+    <button onclick="highlightItems()">Highlight All</button>
+  </div>
+
+  <!-- 5. Event Listener Example -->
+  <div class="section">
+    <button id="clickMe">Click Me!</button>
+    <p id="msg"></p>
+  </div>
+
+  <!-- 6. Toggle Visibility -->
+  <div class="section">
+    <button onclick="toggleBox()">Toggle Box</button>
+    <div id="box">You can hide me!</div>
+  </div>
+
+  <!-- JavaScript -->
+  <script>
+    function changeText() {
+      const heading = document.getElementById("main-heading");
+      heading.innerText = "Text Changed!";
+      heading.style.color = "blue";
+      heading.style.fontSize = "30px";
+    }
+
+    function addParagraph() {
+      const para = document.createElement("p");
+      para.innerText = "This is a new paragraph.";
+      para.style.color = "green";
+      document.getElementById("container").appendChild(para);
+    }
+
+    function removeElement() {
+      const element = document.getElementById("toRemove");
+      element.remove();
+    }
+
+    function highlightItems() {
+      const items = document.querySelectorAll(".item");
+      items.forEach((item) => {
+        item.style.backgroundColor = "yellow";
+      });
+    }
+
+    document.getElementById("clickMe").addEventListener("click", function () {
+      document.getElementById("msg").innerText = "You clicked the button!";
+    });
+
+    function toggleBox() {
+      const box = document.getElementById("box");
+      box.style.display = (box.style.display === "none") ? "block" : "none";
+    }
+  </script>
+
+</body>
+</html>
