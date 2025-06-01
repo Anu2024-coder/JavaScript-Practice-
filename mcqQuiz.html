@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dynamic FAQ section</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    .quiz-container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .question {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      color:black;
+    }
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .option {
+      padding: 10px;
+      border: 1px solid black;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .option:hover {
+      background-color: white;
+    }
+    .option.selected {
+      background-color: green;
+      color: white;
+      border-color: green;
+    }
+    #next-btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: blue;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      float: right;
+    }
+    #next-btn:hover {
+      background-color: blue;
+    }
+    #score-container {
+      text-align: center;
+      font-size: 1.5em;
+      padding: 20px;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body style="font-family: Arial, sans-serif;max-width: 800px;margin: 0 auto;padding: 20px;background-color: white;">
+  <div class="quiz-container">
+    <div id="question-container">
+      <div id="question-number"></div>
+      <div class="question" id="question"></div>
+      <div class="options" id="options"></div>
+      <button id="next-btn">Next</button>
+    </div>
+    <div id="score-container" class="hidden">
+      Your Score: <span id="score"></span>/5
+    </div>
+  </div>
+  <script>
+    const state = {
+      currentQuestionIndex: 0,
+      score: 0,
+      selectedAnswer: null
+    };
+    const questions = [
+      {
+        question: "Which planet is known as the Red Planet?",
+        options: ["Venus", "Mars", "Jupiter", "Saturn"],
+        correctAnswer: 2
+      },
+      {
+        question: "Which city is known as the pink city of india?",
+        options: ["jaipur", "kaithal", "patiala", "Mohali"],
+        correctAnswer: 0
+      },
+      {
+        question: "which is the capital of haryana?",
+        options: ["Kaithal", "Jalandhar", "Mumbai", "Chandigarh"],
+        correctAnswer: 3
+      },
+      {
+        question: "Who discovered bulb?",
+        options: ["Issac newton", "Anu gill", "Thomas edisson", "Albert einstein"],
+        correctAnswer: 2
+      },
+      {
+        question: "Who is the prime minister of india?",
+        options: ["Anu gill", "Narendra modi", "manohar lal khattar", "arwind kejriwal"],
+        correctAnswer: 1
+      }
+    ];
+    function displayQuestion() {
+      const current = questions[state.currentQuestionIndex];
+      $('#question-number').text(`Question ${state.currentQuestionIndex + 1} of ${questions.length}`);
+      $('#question').text(current.question);
+      $('#options').empty();
+      current.options.forEach((option, index) => {
+        const optionEl = $(`<div class="option">${option}</div>`);
+        optionEl.click(() => {
+          $('.option').removeClass('selected');
+          optionEl.addClass('selected');
+          state.selectedAnswer = index;
+        });
+        $('#options').append(optionEl);
+      });
+      $('#next-btn').text(state.currentQuestionIndex === questions.length - 1 ? 'Finish' : 'Next');
+    }
+    function validateAnswer() {
+      if (state.selectedAnswer === questions[state.currentQuestionIndex].correctAnswer) {
+        state.score++;
+      }
+    }
+    function showScore() {
+      $('#question-container').addClass('hidden');
+      $('#score-container').removeClass('hidden');
+      $('#score').text(state.score);
+    }
+    $('#next-btn').click(() => {
+      if (state.selectedAnswer === null) return;
+      validateAnswer();
+      state.currentQuestionIndex++;
+      if (state.currentQuestionIndex < questions.length) {
+        state.selectedAnswer = null;
+        displayQuestion();
+      } else {
+        showScore();
+      }
+    });
+    $(document).ready(() => {
+      displayQuestion();
+    });
+  </script>
+</body>
+</html>
