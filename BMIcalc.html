@@ -5,26 +5,32 @@
   <title>BMI Calculator</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #74ebd5, #acb6e5);
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #00c6ff, #0072ff);
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
       margin: 0;
     }
 
     .container {
-      background: white;
+      background: #fff;
       padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-      width: 320px;
+      border-radius: 16px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+      width: 350px;
       text-align: center;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(30px);}
+      to {opacity: 1; transform: translateY(0);}
     }
 
     h2 {
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       color: #333;
     }
 
@@ -32,59 +38,101 @@
       width: 100%;
       padding: 12px;
       margin: 10px 0;
-      border: 2px solid #ddd;
-      border-radius: 8px;
+      border: 2px solid #ccc;
+      border-radius: 10px;
       font-size: 16px;
     }
 
     button {
       width: 100%;
       padding: 12px;
-      background-color: #4caf50;
+      background-color: #28a745;
       color: white;
       font-size: 16px;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
       margin-top: 10px;
+      transition: background 0.3s ease;
     }
 
     button:hover {
-      background-color: #45a049;
+      background-color: #218838;
     }
 
     .result {
       margin-top: 20px;
-      font-size: 18px;
+      font-size: 20px;
       font-weight: bold;
+      color: #444;
     }
 
     .category {
-      margin-top: 10px;
       font-size: 16px;
-      color: #555;
+      margin-top: 5px;
+      color: #666;
+    }
+
+    .chart {
+      margin-top: 25px;
+      text-align: left;
+      font-size: 14px;
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      padding: 12px;
+      border: 1px solid #ccc;
+    }
+
+    .chart div {
+      margin: 4px 0;
+    }
+
+    .highlight {
+      font-weight: bold;
+      color: #007bff;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>BMI Calculator</h2>
+    <h2>Enhanced BMI Calculator</h2>
     <input type="number" id="weight" placeholder="Weight (kg)" />
     <input type="number" id="height" placeholder="Height (cm)" />
     <button onclick="calculateBMI()">Calculate BMI</button>
+
     <div class="result" id="bmiResult"></div>
     <div class="category" id="bmiCategory"></div>
+
+    <div class="chart">
+      <strong>BMI Chart:</strong>
+      <div><span class="highlight">Underweight:</span> Less than 18.5</div>
+      <div><span class="highlight">Normal weight:</span> 18.5 – 24.9</div>
+      <div><span class="highlight">Overweight:</span> 25 – 29.9</div>
+      <div><span class="highlight">Obese:</span> 30 and above</div>
+    </div>
   </div>
 
   <script>
+    // Load saved values if available
+    window.onload = function () {
+      const savedWeight = localStorage.getItem("weight");
+      const savedHeight = localStorage.getItem("height");
+      if (savedWeight) document.getElementById("weight").value = savedWeight;
+      if (savedHeight) document.getElementById("height").value = savedHeight;
+    };
+
     function calculateBMI() {
       const weight = parseFloat(document.getElementById("weight").value);
       const heightCm = parseFloat(document.getElementById("height").value);
 
       if (!weight || !heightCm || weight <= 0 || heightCm <= 0) {
-        alert("Please enter valid positive numbers for weight and height.");
+        alert("Please enter valid positive numbers for both fields.");
         return;
       }
+
+      // Save to localStorage
+      localStorage.setItem("weight", weight);
+      localStorage.setItem("height", heightCm);
 
       const heightM = heightCm / 100;
       const bmi = (weight / (heightM * heightM)).toFixed(2);
@@ -96,6 +144,7 @@
       else if (bmi < 29.9) category = "Overweight";
       else category = "Obese";
 
+      // Animate result
       document.getElementById("bmiResult").innerText = `Your BMI is ${bmi}`;
       document.getElementById("bmiCategory").innerText = `Category: ${category}`;
     }
