@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Smart Note App</title>
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #333333;
+      --note-bg: #f9f9f9;
+      --btn-bg: #28a745;
+      --btn-hover: #218838;
+      --note-border: #f8b500;
+    }
+
+    body.dark {
+      --bg: #1e1e1e;
+      --text: #f0f0f0;
+      --note-bg: #2a2a2a;
+      --btn-bg: #007bff;
+      --btn-hover: #0056b3;
+      --note-border: #ff9800;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+    }
+
+    .app {
+      margin: 40px;
+      padding: 30px;
+      border-radius: 15px;
+      width: 90%;
+      max-width: 650px;
+      background: var(--bg);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      transition: all 0.3s ease;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .theme-toggle {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 10px;
+    }
+
+    .theme-toggle button {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      background: var(--btn-bg);
+      color: white;
+    }
+
+    textarea, .note textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      font-size: 16px;
+      resize: none;
+      background: var(--note-bg);
+      color: var(--text);
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 12px;
+      background-color: var(--btn-bg);
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: var(--btn-hover);
+    }
+
+    .notes {
+      margin-top: 25px;
+    }
+
+    .note {
+      background: var(--note-bg);
+      padding: 15px;
+      margin-bottom: 15px;
+      border-left: 5px solid var(--note-border);
+      border-radius: 10px;
+      position: relative;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .note-controls {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .note button {
+      flex: 1;
+      padding: 8px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .app {
+        margin: 20px;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="theme-toggle">
+      <button onclick="toggleTheme()">🌗 Toggle Theme</button>
+    </div>
+    <h1>📝 Smart Notes</h1>
+    <textarea id="noteInput" placeholder="Write your note here..."></textarea>
+    <button onclick="addNote()">Add Note</button>
+    <div class="notes" id="notesContainer"></div>
+  </div>
+
+  <script>
+    const notesContainer = document.getElementById("notesContainer");
+    const themeKey = "note-theme";
+
+    // Load Notes
+    function loadNotes() {
+      const notes = JSON.parse(localStorage.getItem("notes")) || [];
+      notesContainer.innerHTML = "";
+      notes.forEach((note, index) => {
+        const div = document.createElement("div");
+        div.className = "note";
+        div.innerHTML = `
+          <textarea id="edit-${index}">${note}</textarea>
+          <div class="note-controls">
+            <button onclick="saveNote(${index})">💾 Save</button>
+            <button onclick="deleteNote(${index})">🗑 Delete</button>
+          </div>
+        `;
+        notesContainer.appendChild(div);
+      });
+    }
+
+    // Add New Note
+    function addNote() {
+      const text = document.getElementById("noteInput").value.trim();
+      if (!text) {
+        alert("Please write something!");
+        return;
+      }
+      const notes = JSON.parse(localStorage.getItem("notes")) || [];
+      notes.push(text);
+      localStorage.setItem("notes", JSON.stringify(notes));
+      document.getElementById("noteInput").value = "";
+      loadNotes();
+    }
+
+    // Save Edited Note
+    function saveNote(index) {
+      const updatedText = document.getElementById(`edit-${index}`).value;
+      const notes = JSON.parse(localStorage.getItem("notes")) || [];
+      notes[index] = updatedText;
+      localStorage.setItem("notes", JSON.stringify(notes));
+      loadNotes();
+    }
+
+    // Delete Note
+    function deleteNote(index) {
+      const notes = JSON.parse(localStorage.getItem("notes")) || [];
+      notes.splice(index, 1);
+      localStorage.setItem("notes", JSON.stringify(notes));
+      loadNotes();
+    }
+
+    // Theme Toggle
+    function toggleTheme() {
+      const isDark = document.body.classList.toggle("dark");
+      localStorage.setItem(themeKey, isDark ? "dark" : "light");
+    }
+
+    // Load Theme
+    function loadTheme() {
+      const savedTheme = localStorage.getItem(themeKey);
+      if (savedTheme === "dark") {
+        document.body.classList.add("dark");
+      }
+    }
+
+    // Init
+    loadTheme();
+    loadNotes();
+  </script>
+</body>
+</html>
